@@ -88,7 +88,8 @@ class ExamplePluginInit extends Singleton
                 // load template
                 $this->application->template('plugin-template.php', ['foo' => 'bar']);
 
-                ///...
+	            /// load bookstore main files
+	            $plugin->includes( __DIR__ . '/src');
 
             });
 
