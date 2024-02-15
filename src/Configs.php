@@ -8,7 +8,9 @@ class Configs extends Singleton {
 
 	protected function __construct() {
 		// hook into the init action and call registerBookStorePostType to add book post type
-		add_action( 'init', [$this,'registerBookStorePostType'] );
+		add_action( 'init', [ $this, 'registerBookStorePostType' ] );
+		// hook into the init action and call registerBookTaxonomies to add taxonomy to book
+		add_action( 'init', [ $this, 'registerBookTaxonomies' ] );
 	}
 
 	/**
@@ -49,7 +51,7 @@ class Configs extends Singleton {
 			'show_ui'            => true,
 			'show_in_menu'       => true,
 			'query_var'          => true,
-			'rewrite'            =>  ['slug' => 'book'] ,
+			'rewrite'            => [ 'slug' => 'book' ],
 			'capability_type'    => 'post',
 			'has_archive'        => true,
 			'hierarchical'       => false,
@@ -60,11 +62,85 @@ class Configs extends Singleton {
 		register_post_type( 'book', $args );
 	}
 
-	
+	/**
+	 * Create two taxonomies, Publishers and Authors for the post type "book".
+	 */
+	function registerBookTaxonomies(): void {
+
+		// Add 1st taxonomy: Publisher
+		$labels = array(
+			'name'                       => _x( 'Publishers', 'taxonomy general name', 'example-plugin' ),
+			'singular_name'              => _x( 'Publisher', 'taxonomy singular name', 'example-plugin' ),
+			'menu_name'                  => __( 'Publisher', 'example-plugin' ),
+			'all_items'                  => __( 'All Publishers', 'example-plugin' ),
+			'edit_item'                  => __( 'Edit Publisher', 'example-plugin' ),
+			'view_item'                  => __( 'View Publisher', 'example-plugin' ),
+			'update_item'                => __( 'Update Publisher', 'example-plugin' ),
+			'add_new_item'               => __( 'Add New Publisher', 'example-plugin' ),
+			'new_item_name'              => __( 'New Publisher Name', 'example-plugin' ),
+			'parent_item'                => __( 'Parent Publisher', 'example-plugin' ),
+			'parent_item_colon'          => __( 'Parent Publisher:', 'example-plugin' ),
+			'search_items'               => __( 'Search Publishers', 'example-plugin' ),
+		);
+
+		$args = array(
+			'hierarchical'      => true,
+			'labels'            => $labels,
+			'show_ui'           => true,
+			'show_admin_column' => true,
+			'show_in_nav_menus' => true,
+			'show_in_quick_edit' => true,
+			'query_var'         => true,
+			'sort'              => true,
+			'rewrite'           => [ 'slug' => 'Publisher' ],
+		);
+
+		register_taxonomy( 'Publisher', [ 'book' ], $args );
+
+		unset( $args );
+		unset( $labels );
+
+		// Add 2nd taxonomy: Author
+		$labels = array(
+			'name'                       => _x( 'Authors', 'taxonomy general name', 'example-plugin' ),
+			'singular_name'              => _x( 'Author', 'taxonomy singular name', 'example-plugin' ),
+			'search_items'               => __( 'Search Authors', 'example-plugin' ),
+			'popular_items'              => __( 'Popular Authors', 'example-plugin' ),
+			'all_items'                  => __( 'All Authors', 'example-plugin' ),
+			'parent_item'                => null,
+			'parent_item_colon'          => null,
+			'edit_item'                  => __( 'Edit Author', 'example-plugin' ),
+			'update_item'                => __( 'Update Author', 'example-plugin' ),
+			'add_new_item'               => __( 'Add New Author', 'example-plugin' ),
+			'new_item_name'              => __( 'New Author Name', 'example-plugin' ),
+			'separate_items_with_commas' => __( 'Separate Authors with commas', 'example-plugin' ),
+			'add_or_remove_items'        => __( 'Add or remove Authors', 'example-plugin' ),
+			'choose_from_most_used'      => __( 'Choose from the most used Authors', 'example-plugin' ),
+			'not_found'                  => __( 'No Authors found.', 'example-plugin' ),
+			'menu_name'                  => __( 'Authors', 'example-plugin' ),
+		);
+
+		$args = array(
+			'hierarchical'      => true,
+			'labels'            => $labels,
+			'show_ui'           => true,
+			'show_admin_column' => true,
+			'show_in_nav_menus' => true,
+			'show_in_quick_edit' => true,
+			'query_var'         => true,
+			'sort'              => true,
+			'update_count_callback' => '_update_post_term_count',
+			'rewrite'               => ['slug' => 'Author'],
+		);
+
+		register_taxonomy( 'Author', 'book', $args );
+	}
+
 
 }
 
-function configs(){
+function configs() {
 	return Configs::get();
 }
+
 configs();
