@@ -24,21 +24,6 @@ class ConfigsBookStore extends Singleton {
 	}
 
 	/**
-	 * Create Table books_info in DB.
-	 */
-
-	public function createBooksTable() {
-
-		$table_exists = $this->db->get_var( "SHOW TABLES LIKE '$this->Table'" ) === $this->Table;
-		if ( ! $table_exists ) {
-			$charset_collate = $this->db->get_charset_collate();
-			$sql             = "CREATE TABLE {$this->Table} ( ID mediumint(9) NOT NULL AUTO_INCREMENT, post_id mediumint(9) NOT NULL, isbn varchar(255) NOT NULL, PRIMARY KEY  (ID) ) $charset_collate;";
-			require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-			dbDelta( $sql );
-		}
-	}
-
-	/**
 	 * Register a custom post type called "Book".
 	 */
 	public function registerBookStorePostType(): void {
@@ -178,7 +163,7 @@ class ConfigsBookStore extends Singleton {
 	/**
 	 * Create Isbn Meta Box layout.
 	 */
-	private function renderIsbnMetaBox( $post ): void {
+	public function renderIsbnMetaBox( $post ): void {
 		$isbn = get_post_meta( $post->ID, 'isbn', true );
 		echo '<label for="isbn">' . __( 'ISBN: ', 'example-plugin' ) . '</label>';
 		echo '<input type="text" id="isbn" name="isbn" value="' . esc_attr( $isbn ) . '">';
@@ -187,7 +172,7 @@ class ConfigsBookStore extends Singleton {
 	/**
 	 *  Save ISBN / And Save to 'books_info' Table
 	 */
-	private function SaveIsbnToBooksInfo( $post_id ): void {
+	public function SaveIsbnToBooksInfo( $post_id ): void {
 		/**
 		 *  Save ISBN
 		 */
