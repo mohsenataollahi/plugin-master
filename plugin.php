@@ -89,7 +89,6 @@ class ExamplePluginInit extends Singleton
 	            /// load bookstore main files
 	            $plugin->includes( __DIR__ . '/src');
 
-
             });
 
         } catch (Exception $e) {
