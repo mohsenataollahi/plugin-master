@@ -1,0 +1,301 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Example Plugin\n"
+"POT-Creation-Date: 2024-02-16 17:42+0330\n"
+"PO-Revision-Date: 2024-02-16 17:42+0330\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: fa_IR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.2\n"
+"X-Poedit-Basepath: ..\n"
+"Plural-Forms: nplurals=2; plural=(n==0 || n==1);\n"
+"X-Poedit-Flags-xgettext: --add-comments=translators:\n"
+"X-Poedit-WPHeader: plugin.php\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
+"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+
+#: src/ConfigsBookStore.php:31
+msgctxt "Post type general name"
+msgid "Books"
+msgstr "کتاب ها"
+
+#: src/ConfigsBookStore.php:32
+msgctxt "Post type singular name"
+msgid "Book"
+msgstr "کتاب"
+
+#: src/ConfigsBookStore.php:33
+msgctxt "Admin Menu text"
+msgid "Books"
+msgstr "کتاب ها"
+
+#: src/ConfigsBookStore.php:34
+msgctxt "Add New on Toolbar"
+msgid "Book"
+msgstr "کتاب"
+
+#: src/ConfigsBookStore.php:35
+msgid "Add New"
+msgstr "افزودن جدید"
+
+#: src/ConfigsBookStore.php:36
+msgid "Add New Book"
+msgstr "افزودن کتاب جدید"
+
+#: src/ConfigsBookStore.php:37
+msgid "New Book"
+msgstr "کتاب جدید"
+
+#: src/ConfigsBookStore.php:38
+msgid "Edit Book"
+msgstr "ویرایش کتاب"
+
+#: src/ConfigsBookStore.php:39
+msgid "View Book"
+msgstr "نمایش کتاب"
+
+#: src/ConfigsBookStore.php:40
+msgid "All Books"
+msgstr "همه ی کتاب ها"
+
+#: src/ConfigsBookStore.php:41
+msgid "Search Books"
+msgstr "جستجوی کتاب"
+
+#: src/ConfigsBookStore.php:42
+msgid "Parent Books:"
+msgstr "کتاب والد:"
+
+#: src/ConfigsBookStore.php:43
+msgid "No books found."
+msgstr "کتابی یافت نشد."
+
+#: src/ConfigsBookStore.php:44
+msgid "No books found in Trash."
+msgstr "کتابی در زباله دان یافت نشد."
+
+#: src/ConfigsBookStore.php:45
+msgctxt ""
+"Overrides the “Featured Image” phrase for this post type. Added in 4.3"
+msgid "Book Cover Image"
+msgstr "تصویر شاخص"
+
+#: src/ConfigsBookStore.php:46
+msgctxt ""
+"Overrides the “Set featured image” phrase for this post type. Added in 4.3"
+msgid "Set cover image"
+msgstr ""
+
+#: src/ConfigsBookStore.php:47
+msgctxt ""
+"Overrides the “Remove featured image” phrase for this post type. Added in 4.3"
+msgid "Remove cover image"
+msgstr ""
+
+#: src/ConfigsBookStore.php:48
+msgctxt ""
+"Overrides the “Use as featured image” phrase for this post type. Added in 4.3"
+msgid "Use as cover image"
+msgstr ""
+
+#: src/ConfigsBookStore.php:49
+msgctxt ""
+"The post type archive label used in nav menus. Default “Post Archives”. "
+"Added in 4.4"
+msgid "Book archives"
+msgstr ""
+
+#: src/ConfigsBookStore.php:50
+msgctxt ""
+"Overrides the “Insert into post”/”Insert into page” phrase (used when "
+"inserting media into a post). Added in 4.4"
+msgid "Insert into book"
+msgstr ""
+
+#: src/ConfigsBookStore.php:51
+msgctxt ""
+"Overrides the “Uploaded to this post”/”Uploaded to this page” phrase (used "
+"when viewing media attached to a post). Added in 4.4"
+msgid "Uploaded to this book"
+msgstr ""
+
+#: src/ConfigsBookStore.php:52
+msgctxt ""
+"Screen reader text for the filter links heading on the post type listing "
+"screen. Default “Filter posts list”/”Filter pages list”. Added in 4.4"
+msgid "Filter books list"
+msgstr ""
+
+#: src/ConfigsBookStore.php:53
+msgctxt ""
+"Screen reader text for the pagination heading on the post type listing "
+"screen. Default “Posts list navigation”/”Pages list navigation”. Added in 4.4"
+msgid "Books list navigation"
+msgstr ""
+
+#: src/ConfigsBookStore.php:54
+msgctxt ""
+"Screen reader text for the items list heading on the post type listing "
+"screen. Default “Posts list”/”Pages list”. Added in 4.4"
+msgid "Books list"
+msgstr ""
+
+#: src/ConfigsBookStore.php:83
+msgctxt "taxonomy general name"
+msgid "Publishers"
+msgstr "ناشران"
+
+#: src/ConfigsBookStore.php:84
+msgctxt "taxonomy singular name"
+msgid "Publisher"
+msgstr "ناشر"
+
+#: src/ConfigsBookStore.php:85
+msgid "Publisher"
+msgstr "ناشر"
+
+#: src/ConfigsBookStore.php:86
+msgid "All Publishers"
+msgstr "همه ی ناشران"
+
+#: src/ConfigsBookStore.php:87
+msgid "Edit Publisher"
+msgstr "ویرایش ناشر"
+
+#: src/ConfigsBookStore.php:88
+msgid "View Publisher"
+msgstr "نمایش ناشر"
+
+#: src/ConfigsBookStore.php:89
+msgid "Update Publisher"
+msgstr "بروزرسانی ناشر"
+
+#: src/ConfigsBookStore.php:90
+msgid "Add New Publisher"
+msgstr "افزودن ناشر جدید"
+
+#: src/ConfigsBookStore.php:91
+msgid "New Publisher Name"
+msgstr "نام ناشر جدید"
+
+#: src/ConfigsBookStore.php:92
+msgid "Parent Publisher"
+msgstr "ناشر والد"
+
+#: src/ConfigsBookStore.php:93
+msgid "Parent Publisher:"
+msgstr "ناشر والد :"
+
+#: src/ConfigsBookStore.php:94
+msgid "Search Publishers"
+msgstr "جستجوی ناشران"
+
+#: src/ConfigsBookStore.php:116
+msgctxt "taxonomy general name"
+msgid "Authors"
+msgstr "نویسندگان"
+
+#: src/ConfigsBookStore.php:117
+msgctxt "taxonomy singular name"
+msgid "Author"
+msgstr "نویسنده"
+
+#: src/ConfigsBookStore.php:118
+msgid "Search Authors"
+msgstr "جستجوی نویسندگان"
+
+#: src/ConfigsBookStore.php:119
+msgid "Popular Authors"
+msgstr "نویسندگان معروف"
+
+#: src/ConfigsBookStore.php:120
+msgid "All Authors"
+msgstr "همه ی نویسندگان"
+
+#: src/ConfigsBookStore.php:123
+msgid "Edit Author"
+msgstr "ویرایش نویسنده"
+
+#: src/ConfigsBookStore.php:124
+msgid "Update Author"
+msgstr ""
+
+#: src/ConfigsBookStore.php:125
+msgid "Add New Author"
+msgstr ""
+
+#: src/ConfigsBookStore.php:126
+msgid "New Author Name"
+msgstr ""
+
+#: src/ConfigsBookStore.php:127
+msgid "Separate Authors with commas"
+msgstr ""
+
+#: src/ConfigsBookStore.php:128
+msgid "Add or remove Authors"
+msgstr ""
+
+#: src/ConfigsBookStore.php:129
+msgid "Choose from the most used Authors"
+msgstr ""
+
+#: src/ConfigsBookStore.php:130
+msgid "No Authors found."
+msgstr ""
+
+#: src/ConfigsBookStore.php:131
+msgid "Authors"
+msgstr "نویسندگان"
+
+#: src/ConfigsBookStore.php:168
+msgid "ISBN: "
+msgstr ""
+
+#: src/menu.php:12 src/menu.php:13 src/menu.php:29
+msgid "Books Info"
+msgstr "اطلاعات کتاب ها"
+
+#: vendor/veronalabs/logger-wp/src/Service/AdminLogViewer.php:148
+msgid "Delete log"
+msgstr ""
+
+#: vendor/veronalabs/logger-wp/src/Service/AdminLogViewer.php:159
+#, php-format
+msgid "%1$s at %2$s %3$s"
+msgstr ""
+
+#: vendor/veronalabs/logger-wp/src/Service/AdminLogViewer.php:168
+msgid "View"
+msgstr "نمایش"
+
+#: vendor/veronalabs/logger-wp/src/Service/AdminLogViewer.php:181
+msgid "There are currently no logs to view."
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+msgid "Example Plugin"
+msgstr "پلاگین نمونه"
+
+#. Plugin URI of the plugin/theme
+msgid "https://www.veronalabs.com"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "Example WordPress Plugin Based on Rabbit Framework!"
+msgstr "نمونه پلاگین وردپرس بر اساس چارچوب Rabbit!"
+
+#. Author of the plugin/theme
+msgid "VeronaLabs"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "https://veronalabs.com"
+msgstr ""
