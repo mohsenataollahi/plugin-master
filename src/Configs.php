@@ -6,17 +6,28 @@ use \Rabbit\Utils\Singleton;
 
 class Configs extends Singleton {
 
+	private $Table;
+	private $db;
+
 	protected function __construct() {
+
+		global $wpdb;
+		$this->db    = $wpdb;
+		$this->Table = $this->db->prefix . 'books_info';
 		// hook into the init action and call registerBookStorePostType to add book post type
 		add_action( 'init', [ $this, 'registerBookStorePostType' ] );
 		// hook into the init action and call registerBookTaxonomies to add taxonomy to book
 		add_action( 'init', [ $this, 'registerBookTaxonomies' ] );
+		// hook into the add_meta_boxes action and call addIsbnMetaBox to add metabox to book
+		add_action( 'add_meta_boxes', [ $this, 'addIsbnMetaBox' ] );
+
+		add_action( 'save_post_book', [ $this, 'SaveIsbnToBooksInfo' ] );
 	}
 
 	/**
 	 * Register a custom post type called "Book".
 	 */
-	function registerBookStorePostType(): void {
+	public function registerBookStorePostType(): void {
 		$labels = [
 			'name'                  => _x( 'Books', 'Post type general name', 'example-plugin' ),
 			'singular_name'         => _x( 'Book', 'Post type singular name', 'example-plugin' ),
@@ -65,34 +76,34 @@ class Configs extends Singleton {
 	/**
 	 * Create two taxonomies, Publishers and Authors for the post type "book".
 	 */
-	function registerBookTaxonomies(): void {
+	public function registerBookTaxonomies(): void {
 
 		// Add 1st taxonomy: Publisher
 		$labels = array(
-			'name'                       => _x( 'Publishers', 'taxonomy general name', 'example-plugin' ),
-			'singular_name'              => _x( 'Publisher', 'taxonomy singular name', 'example-plugin' ),
-			'menu_name'                  => __( 'Publisher', 'example-plugin' ),
-			'all_items'                  => __( 'All Publishers', 'example-plugin' ),
-			'edit_item'                  => __( 'Edit Publisher', 'example-plugin' ),
-			'view_item'                  => __( 'View Publisher', 'example-plugin' ),
-			'update_item'                => __( 'Update Publisher', 'example-plugin' ),
-			'add_new_item'               => __( 'Add New Publisher', 'example-plugin' ),
-			'new_item_name'              => __( 'New Publisher Name', 'example-plugin' ),
-			'parent_item'                => __( 'Parent Publisher', 'example-plugin' ),
-			'parent_item_colon'          => __( 'Parent Publisher:', 'example-plugin' ),
-			'search_items'               => __( 'Search Publishers', 'example-plugin' ),
+			'name'              => _x( 'Publishers', 'taxonomy general name', 'example-plugin' ),
+			'singular_name'     => _x( 'Publisher', 'taxonomy singular name', 'example-plugin' ),
+			'menu_name'         => __( 'Publisher', 'example-plugin' ),
+			'all_items'         => __( 'All Publishers', 'example-plugin' ),
+			'edit_item'         => __( 'Edit Publisher', 'example-plugin' ),
+			'view_item'         => __( 'View Publisher', 'example-plugin' ),
+			'update_item'       => __( 'Update Publisher', 'example-plugin' ),
+			'add_new_item'      => __( 'Add New Publisher', 'example-plugin' ),
+			'new_item_name'     => __( 'New Publisher Name', 'example-plugin' ),
+			'parent_item'       => __( 'Parent Publisher', 'example-plugin' ),
+			'parent_item_colon' => __( 'Parent Publisher:', 'example-plugin' ),
+			'search_items'      => __( 'Search Publishers', 'example-plugin' ),
 		);
 
 		$args = array(
-			'hierarchical'      => true,
-			'labels'            => $labels,
-			'show_ui'           => true,
-			'show_admin_column' => true,
-			'show_in_nav_menus' => true,
+			'hierarchical'       => true,
+			'labels'             => $labels,
+			'show_ui'            => true,
+			'show_admin_column'  => true,
+			'show_in_nav_menus'  => true,
 			'show_in_quick_edit' => true,
-			'query_var'         => true,
-			'sort'              => true,
-			'rewrite'           => [ 'slug' => 'Publisher' ],
+			'query_var'          => true,
+			'sort'               => true,
+			'rewrite'            => [ 'slug' => 'Publisher' ],
 		);
 
 		register_taxonomy( 'Publisher', [ 'book' ], $args );
@@ -121,25 +132,58 @@ class Configs extends Singleton {
 		);
 
 		$args = array(
-			'hierarchical'      => true,
-			'labels'            => $labels,
-			'show_ui'           => true,
-			'show_admin_column' => true,
-			'show_in_nav_menus' => true,
-			'show_in_quick_edit' => true,
-			'query_var'         => true,
-			'sort'              => true,
+			'hierarchical'          => true,
+			'labels'                => $labels,
+			'show_ui'               => true,
+			'show_admin_column'     => true,
+			'show_in_nav_menus'     => true,
+			'show_in_quick_edit'    => true,
+			'query_var'             => true,
+			'sort'                  => true,
 			'update_count_callback' => '_update_post_term_count',
-			'rewrite'               => ['slug' => 'Author'],
+			'rewrite'               => [ 'slug' => 'Author' ],
 		);
 
 		register_taxonomy( 'Author', 'book', $args );
 	}
 
+	/**
+	 * Create Isbn Meta Box for the post type "book".
+	 */
+	public function addIsbnMetaBox(): void {
+		add_meta_box(
+			'isbn_meta_box',
+			'ISBN',
+			[ $this, 'renderIsbnMetaBox' ],
+			'book',
+			'side'
+		);
+	}
+
+	public function renderIsbnMetaBox( $post ): void {
+		$isbn = get_post_meta( $post->ID, 'isbn', true );
+		echo '<label for="isbn">' . __( 'ISBN: ', 'example-plugin' ) . '</label>';
+		echo '<input type="text" id="isbn" name="isbn" value="' . esc_attr( $isbn ) . '">';
+	}
+
+	/**
+	 *  Save ISBN / And Save to 'books_info' Table
+	 */
+
+	public function SaveIsbnToBooksInfo( $post_id ): void {
+		if ( array_key_exists( 'isbn', $_POST ) ) {
+			update_post_meta(
+				$post_id,
+				'isbn',
+				sanitize_text_field( $_POST['isbn'] )
+			);
+		}
+	}
+
 
 }
 
-function configs() {
+function configs(): Singleton {
 	return Configs::get();
 }
 
