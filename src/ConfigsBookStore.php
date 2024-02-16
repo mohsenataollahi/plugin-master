@@ -4,13 +4,12 @@ namespace src;
 
 use \Rabbit\Utils\Singleton;
 
-class Configs extends Singleton {
+class ConfigsBookStore extends Singleton {
 
 	private $Table;
 	private $db;
 
 	protected function __construct() {
-
 		global $wpdb;
 		$this->db    = $wpdb;
 		$this->Table = $this->db->prefix . 'books_info';
@@ -20,8 +19,23 @@ class Configs extends Singleton {
 		add_action( 'init', [ $this, 'registerBookTaxonomies' ] );
 		// hook into the add_meta_boxes action and call addIsbnMetaBox to add metabox to book
 		add_action( 'add_meta_boxes', [ $this, 'addIsbnMetaBox' ] );
-
+		// hook to save metabox data
 		add_action( 'save_post_book', [ $this, 'SaveIsbnToBooksInfo' ] );
+	}
+
+	/**
+	 * Create Table books_info in DB.
+	 */
+
+	public function createBooksTable() {
+
+		$table_exists = $this->db->get_var( "SHOW TABLES LIKE '$this->Table'" ) === $this->Table;
+		if ( ! $table_exists ) {
+			$charset_collate = $this->db->get_charset_collate();
+			$sql             = "CREATE TABLE {$this->Table} ( ID mediumint(9) NOT NULL AUTO_INCREMENT, post_id mediumint(9) NOT NULL, isbn varchar(255) NOT NULL, PRIMARY KEY  (ID) ) $charset_collate;";
+			require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+			dbDelta( $sql );
+		}
 	}
 
 	/**
@@ -68,6 +82,7 @@ class Configs extends Singleton {
 			'hierarchical'       => false,
 			'menu_position'      => 5,
 			'supports'           => [ 'title', 'editor', 'author', 'thumbnail', 'excerpt', 'comments' ],
+			'menu_icon'           => 'dashicons-book',
 		];
 
 		register_post_type( 'book', $args );
@@ -160,7 +175,10 @@ class Configs extends Singleton {
 		);
 	}
 
-	public function renderIsbnMetaBox( $post ): void {
+	/**
+	 * Create Isbn Meta Box layout.
+	 */
+	private function renderIsbnMetaBox( $post ): void {
 		$isbn = get_post_meta( $post->ID, 'isbn', true );
 		echo '<label for="isbn">' . __( 'ISBN: ', 'example-plugin' ) . '</label>';
 		echo '<input type="text" id="isbn" name="isbn" value="' . esc_attr( $isbn ) . '">';
@@ -169,8 +187,10 @@ class Configs extends Singleton {
 	/**
 	 *  Save ISBN / And Save to 'books_info' Table
 	 */
-
-	public function SaveIsbnToBooksInfo( $post_id ): void {
+	private function SaveIsbnToBooksInfo( $post_id ): void {
+		/**
+		 *  Save ISBN
+		 */
 		if ( array_key_exists( 'isbn', $_POST ) ) {
 			update_post_meta(
 				$post_id,
@@ -178,13 +198,36 @@ class Configs extends Singleton {
 				sanitize_text_field( $_POST['isbn'] )
 			);
 		}
+		/**
+		 *  Save ISBN  to 'books_info' Table
+		 */
+		$query = $this->db->prepare( "SELECT * FROM {$this->Table} WHERE post_id=%d", $post_id );
+		$stmt  = $this->db->get_results( $query, 'OBJECT' );
+		if ( empty( $stmt ) ) {
+			$data   = [
+				'post_id' => $post_id,
+				'isbn'    => sanitize_text_field( $_POST['isbn'] ),
+			];
+			$format = [ '%d', '%s' ];
+			$this->db->insert( $this->Table, $data, $format );
+		} else {
+			$data         = [
+				'isbn' => sanitize_text_field( $_POST['isbn'] ),
+			];
+			$where        = [ 'post_id' => $post_id ];
+			$format       = [ '%s' ];
+			$where_format = [ '%d' ];
+			$this->db->update( $this->Table, $data, $where, $format, $where_format );
+		}
+
+
 	}
 
 
 }
 
-function configs(): Singleton {
-	return Configs::get();
+function ConfigsBookStore(): Singleton {
+	return ConfigsBookStore::get();
 }
 
-configs();
+ConfigsBookStore();

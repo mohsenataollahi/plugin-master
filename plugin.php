@@ -20,6 +20,7 @@ use Rabbit\Redirects\AdminNotice;
 use Rabbit\Templates\TemplatesServiceProvider;
 use Rabbit\Utils\Singleton;
 use League\Container\Container;
+use src\ConfigsBookStore;
 
 if (file_exists(dirname(__FILE__) . '/vendor/autoload.php')) {
     require dirname(__FILE__) . '/vendor/autoload.php';
@@ -42,6 +43,7 @@ class ExamplePluginInit extends Singleton
     public function __construct()
     {
         $this->application = Application::get()->loadPlugin(__DIR__, __FILE__, 'config');
+
         $this->init();
     }
 
@@ -64,15 +66,8 @@ class ExamplePluginInit extends Singleton
              */
             $this->application->onActivation(function () {
                 // Create tables or something else
-	            global $wpdb;
-	            $table_name = $wpdb->prefix . 'books_info';
-	            $table_exists = $wpdb->get_var("SHOW TABLES LIKE '$table_name'") === $table_name;
-	            if (!$table_exists) {
-		            $charset_collate = $wpdb->get_charset_collate();
-		            $sql = "CREATE TABLE {$table_name} ( ID mediumint(9) NOT NULL AUTO_INCREMENT, post_id mediumint(9) NOT NULL, isbn varchar(255) NOT NULL, PRIMARY KEY  (ID) ) $charset_collate;";
-		            require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-		            dbDelta( $sql );
-	            }
+
+	            // TODO: add function to create my table
             });
 
             /**
