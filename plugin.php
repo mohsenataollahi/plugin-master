@@ -68,6 +68,8 @@ class ExamplePluginInit extends Singleton
                 // Create tables or something else
 
 	            // TODO: add function to create my table
+//	            $db = ConfigsBookStore();
+//	            $db->createBooksTable();
             });
 
             /**
@@ -75,6 +77,7 @@ class ExamplePluginInit extends Singleton
              */
             $this->application->onDeactivation(function () {
                 // Clear events, cache or something else
+
             });
 
             $this->application->boot(function (Plugin $plugin) {
@@ -85,6 +88,7 @@ class ExamplePluginInit extends Singleton
 
 	            /// load bookstore main files
 	            $plugin->includes( __DIR__ . '/src');
+
 
             });
 
